@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#3461e8">
+<title>Cuaderno del profesor · Plantilla genérica</title>
+<style>
+:root{
+ --main:#3461e8;--soft:#eaf0ff;--dark:#1d3fbc;
+ --bg:#f4f7fb;--card:#fff;--ink:#162033;--muted:#68758a;--line:#dfe5ef;
+ --ok:#0d9a61;--bad:#d94459;--shadow:0 10px 30px rgba(28,48,82,.09);
+}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:radial-gradient(circle at 0 0,var(--soft),transparent 34rem),var(--bg);
+ color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{max-width:1650px;margin:auto;padding:14px}
+.hero{background:linear-gradient(135deg,var(--dark),var(--main));color:#fff;border-radius:22px;padding:18px 21px;
+ box-shadow:var(--shadow);display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.hero h1{margin:0;font-size:clamp(25px,4vw,38px);line-height:1}
+.hero p{margin:6px 0 0;opacity:.92;font-size:13px}
+.hero-icon{width:58px;height:58px;border-radius:17px;background:#ffffff1f;border:1px solid #ffffff35;display:grid;place-items:center;font-size:28px}
+.hero-left{display:flex;align-items:center;gap:13px}
+.card{background:#fff;border:1px solid var(--line);border-radius:17px;padding:13px;margin-top:12px;box-shadow:var(--shadow)}
+.label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:950;color:var(--muted);margin-bottom:7px}
+.class-tabs,.subject-tabs{display:flex;flex-wrap:wrap;gap:7px}
+.class-btn,.subject-btn,.term-btn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 12px;font-weight:850;color:#526078}
+.class-btn.active,.subject-btn.active,.term-btn.active{background:var(--soft);color:var(--dark);border-color:var(--main);box-shadow:inset 0 0 0 1px var(--main)}
+.subject-btn{min-width:150px}
+.subject-btn .ico{display:block;font-size:22px;margin-bottom:3px}
+.terms{display:flex;gap:7px;flex-wrap:wrap}
+.term-btn{border-radius:999px}
+.term-btn.active{background:var(--main);color:#fff}
+.top-grid{display:grid;grid-template-columns:1fr;gap:12px}
+.bar{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.pills,.actions{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.pill{padding:8px 10px;border-radius:999px;border:1px solid var(--line);background:#f8fafc;font-size:13px;font-weight:850;color:#556279}
+.pill.good{background:var(--soft);border-color:var(--main);color:var(--dark)}
+.pill.warn{background:#fff6df;color:#8b5900;border-color:#ead196}
+.btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 12px;font-weight:850;color:#3f4d64}
+.btn.primary{background:var(--main);border-color:var(--main);color:#fff}
+.wrap{overflow:auto;max-height:72vh;border:1px solid var(--line);border-radius:14px}
+table{border-collapse:separate;border-spacing:0;width:max-content;min-width:100%}
+th,td{padding:7px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff;text-align:center;min-width:106px}
+th{position:sticky;top:0;background:#f7f9fc;z-index:4;font-size:11px;text-transform:uppercase;letter-spacing:.03em;color:#647087}
+th:first-child,td:first-child{position:sticky;left:0;z-index:3;min-width:43px;width:43px}
+th:nth-child(2),td:nth-child(2){position:sticky;left:43px;z-index:3;min-width:225px;text-align:left}
+th:first-child,th:nth-child(2){z-index:7}
+tr:nth-child(even) td{background:#fbfcfe}
+tr:nth-child(even) td:first-child,tr:nth-child(even) td:nth-child(2){background:#fbfcfe}
+.name{border:0;background:transparent;width:100%;font-weight:800;padding:5px;border-radius:7px;color:var(--ink)}
+.name:focus{outline:0;background:var(--soft)}
+.grade{width:72px;padding:7px;border:1px solid #d5dce8;border-radius:8px;text-align:center;font-weight:900;background:#fff}
+.grade:focus{outline:0;border-color:var(--main);box-shadow:0 0 0 3px var(--soft)}
+.activity{width:120px;border:0;background:transparent;text-align:center;font-weight:900;color:#344158}
+.activity:focus{outline:1px solid var(--main);border-radius:5px}
+.weight{width:55px;padding:4px;border:1px solid #d5dce8;border-radius:7px;text-align:center;font-weight:850}
+.final{background:var(--soft)!important;color:var(--dark);font-weight:950}
+.fixedpm{position:sticky!important;right:0!important;z-index:6!important;min-width:170px!important;background:#fff!important;box-shadow:-6px 0 12px rgba(34,55,90,.08)}
+.pmhead{background:var(--soft)!important;color:var(--dark)!important}
+.pmbox{display:flex;align-items:center;justify-content:center;gap:7px}
+.pm{width:38px;height:38px;border:0;border-radius:11px;color:#fff;font-size:24px;font-weight:950;line-height:1;box-shadow:0 3px 8px rgba(0,0,0,.12)}
+.pm:active{transform:scale(.93)}
+.plus{background:linear-gradient(135deg,#19b978,#0b915c)}
+.minus{background:linear-gradient(135deg,#ef6073,#c93449)}
+.score{min-width:48px;height:38px;border-radius:10px;display:grid;place-items:center;font-size:18px;font-weight:950;background:#f3f5f8;border:1px solid var(--line)}
+.score.pos{background:#e8f8f0;color:#087a4d;border-color:#b6e4cc}
+.score.neg{background:#fff0f2;color:#ad3041;border-color:#f1c2ca}
+.trash{border:0;background:transparent;border-radius:8px;padding:5px 7px}
+.trash:hover{background:#fff0f2}
+.empty{padding:42px;text-align:center;color:var(--muted)}
+.finalView{display:none}.finalView.show{display:block}.termView.hide{display:none}
+.info{font-size:12px;color:var(--muted);margin-top:8px}
+.modalbg{position:fixed;inset:0;background:#0b142866;display:none;place-items:center;padding:16px;z-index:99}
+.modalbg.show{display:grid}
+.modal{background:#fff;border-radius:17px;padding:18px;width:min(510px,100%);box-shadow:0 28px 80px #0004}
+.modal h2{margin:0 0 12px}
+.modal input{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px}
+.row{display:grid;grid-template-columns:1fr 120px;gap:8px}
+.modalactions{display:flex;justify-content:flex-end;gap:7px;margin-top:12px}
+@media(max-width:800px){
+ .app{padding:8px}.hero{border-radius:17px}.hero h1{font-size:26px}
+ th:nth-child(2),td:nth-child(2){min-width:165px}.fixedpm{min-width:148px!important}
+ .pm{width:34px;height:34px}.score{height:34px;min-width:42px}
+}
+
+/* Configuración reutilizable del cuaderno */
+.identity-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.meta-input{width:100%;height:44px;border:1px solid #cdd6e3;border-radius:10px;padding:10px 12px;background:#fff;color:var(--ink)}
+.meta-input:focus,.modal textarea:focus,.modal select:focus{outline:2px solid var(--main);outline-offset:1px}
+.help{color:var(--muted);font-size:12px;margin:8px 0 0}
+.subject-line{display:flex;align-items:center;gap:8px;justify-content:space-between;flex-wrap:wrap}
+.subject-tabs{flex:1}
+.btn.subtle{color:var(--dark);border-color:#cbd3e2;background:#f9fbff}
+.btn.danger{background:#fff2f3;color:#aa2536;border-color:#f4c5ca}
+.subject-actions{display:flex;gap:6px;flex-wrap:wrap}
+.modal textarea{width:100%;min-height:160px;resize:vertical;border:1px solid var(--line);border-radius:10px;padding:11px;font:inherit}
+.modal select{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;font:inherit;background:#fff}
+.modal .field{margin-bottom:12px}
+.modal .field .label{margin-bottom:5px}
+.hidden{display:none!important}
+.header-tools{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.header-tools .btn{border-color:#ffffff90;background:#ffffff1c;color:#fff}
+.notice{padding:10px 13px;border:1px solid #d9e4f2;background:#f5f9ff;border-radius:12px;color:#53627a;font-size:12px;margin-top:10px}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#26364d;color:#fff;padding:10px 16px;border-radius:10px;z-index:150;box-shadow:0 8px 25px #0003;font-size:13px}
+.mini-header{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+#subEdit{white-space:nowrap}
+@media(max-width:900px){.identity-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.identity-grid{grid-template-columns:1fr}.hero{align-items:flex-start}.header-tools{width:100%;justify-content:flex-start}.subject-btn{min-width:125px}.subject-line{display:block}.subject-actions{margin-top:8px}.modal .row{grid-template-columns:1fr}}
+@media print{.header-tools,.subject-actions,.actions,.meta-input,.modalbg,.trash,.pm{display:none!important}.wrap{max-height:none;overflow:visible} .card{box-shadow:none} .hero{color:#111;background:#fff}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-icon">📒</div>
+      <div><h1>Cuaderno del profesor</h1><p id="heroSubtitle">Plantilla editable · 3 trimestres · evaluación final · positivos/negativos</p></div>
+    </div>
+    <div class="header-tools">
+      <button type="button" id="exportData" class="btn" title="Guarda todos los datos como copia de seguridad">↓ Guardar copia</button>
+      <button type="button" id="importData" class="btn" title="Recupera una copia de seguridad">↑ Recuperar copia</button>
+      <input id="importFile" class="hidden" type="file" accept="application/json,.json">
+    </div>
+  </div>
+
+  <section class="card">
+    <div class="label">Datos del cuaderno · rellena lo que necesites</div>
+    <div class="identity-grid">
+      <div><label class="label" for="className">Curso y grupo</label><input class="meta-input" id="className" placeholder="Ej.: 4.º Primaria B" autocomplete="off"></div>
+      <div><label class="label" for="schoolYear">Curso escolar</label><input class="meta-input" id="schoolYear" placeholder="Ej.: 2026–2027" autocomplete="off"></div>
+      <div><label class="label" for="teacherName">Profesor/a</label><input class="meta-input" id="teacherName" placeholder="Nombre del docente" autocomplete="off"></div>
+      <div><label class="label" for="schoolName">Centro educativo</label><input class="meta-input" id="schoolName" placeholder="Nombre del centro" autocomplete="off"></div>
+    </div>
+    <p class="help">Se guarda automáticamente en este navegador. Usa «Guardar copia» para conservar un archivo de seguridad o trasladar el cuaderno a otro dispositivo.</p>
+  </section>
+
+  <section class="card top-grid">
+    <div>
+      <div class="label">Asignaturas · puedes añadir, cambiar o quitar</div>
+      <div class="subject-line">
+        <div id="subjects" class="subject-tabs"></div>
+        <div class="subject-actions">
+          <button type="button" id="subEdit" class="btn subtle">✎ Editar materia</button>
+          <button type="button" id="subAdd" class="btn primary">＋ Materia</button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="label">Evaluación</div>
+      <div id="terms" class="terms"></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="bar">
+      <div class="pills">
+        <span id="context" class="pill"></span>
+        <span id="weight" class="pill"></span>
+        <span id="count" class="pill"></span>
+      </div>
+      <div id="actions" class="actions">
+        <button type="button" id="addAct" class="btn primary">＋ Actividad</button>
+        <button type="button" id="addStu" class="btn">＋ Alumnos</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="termView" class="card termView">
+    <div id="table" class="wrap"></div>
+    <div class="info">Escribe las notas entre 0 y 10. Los porcentajes determinan la media de las actividades calificadas. La columna de positivos/negativos permanece fija a la derecha al desplazarte.</div>
+  </div>
+
+  <div id="finalView" class="card finalView">
+    <div id="finalTable" class="wrap"></div>
+    <div class="info">La media final es el promedio de los trimestres que tengan calificación; los positivos/negativos se suman.</div>
+  </div>
+</div>
+
+<div id="stuModal" class="modalbg" role="dialog" aria-modal="true" aria-labelledby="stuTitle">
+  <div class="modal">
+    <h2 id="stuTitle">Añadir alumnado</h2>
+    <div class="label">Nombre y apellidos · uno por línea</div>
+    <textarea id="stuNames" placeholder="Escribe aquí los nombres, uno por línea"></textarea>
+    <p class="help">Puedes añadir un solo alumno o pegar una lista entera. Después puedes modificar los nombres en la tabla.</p>
+    <div class="modalactions"><button type="button" class="btn" data-close="stuModal">Cancelar</button><button type="button" id="saveStu" class="btn primary">Añadir alumnos</button></div>
+  </div>
+</div>
+
+<div id="actModal" class="modalbg" role="dialog" aria-modal="true" aria-labelledby="actTitle">
+  <div class="modal">
+    <h2 id="actTitle">Nueva actividad</h2>
+    <div class="row"><input id="actName" placeholder="Ej.: Examen tema 1" aria-label="Nombre de la actividad"><input id="actWeight" type="number" min="0" max="100" placeholder="%" aria-label="Porcentaje de la actividad"></div>
+    <div class="modalactions"><button type="button" class="btn" data-close="actModal">Cancelar</button><button type="button" id="saveAct" class="btn primary">Añadir</button></div>
+  </div>
+</div>
+
+<div id="subModal" class="modalbg" role="dialog" aria-modal="true" aria-labelledby="subTitle">
+  <div class="modal">
+    <h2 id="subTitle">Nueva asignatura</h2>
+    <div class="field"><label class="label" for="subName">Nombre de la asignatura</label><input id="subName" maxlength="90" placeholder="Ej.: Ciencias Naturales"></div>
+    <div class="field"><label class="label" for="subIcon">Icono (puede ser un emoji)</label><input id="subIcon" maxlength="8" placeholder="📘"></div>
+    <div class="field"><label class="label" for="subColor">Color de la asignatura</label>
+      <select id="subColor">
+        <option value="blue">Azul</option><option value="red">Coral</option><option value="green">Verde</option><option value="amber">Ámbar</option><option value="purple">Violeta</option><option value="cyan">Turquesa</option><option value="slate">Gris azulado</option>
+      </select>
+    </div>
+    <div class="modalactions" style="justify-content:space-between">
+      <button type="button" id="removeSub" class="btn danger hidden">Eliminar materia</button>
+      <div class="actions"><button type="button" class="btn" data-close="subModal">Cancelar</button><button type="button" id="saveSub" class="btn primary">Guardar</button></div>
+    </div>
+  </div>
+</div>
+<div id="toast" class="hidden" role="status" aria-live="polite"></div>
+<script>
+"use strict";
+const KEY = "cuaderno_docente_plantilla_generica_v1"; // Nuevo espacio de guardado, independiente del cuaderno de ejemplo.
+const T = [["t1","1.er trimestre"],["t2","2.º trimestre"],["t3","3.er trimestre"],["final","Evaluación final"]];
+const PALETTES = {
+  blue:{main:"#3461e8",soft:"#eaf0ff",dark:"#1d3fbc"},
+  red:{main:"#d64a63",soft:"#ffecef",dark:"#a9243d"},
+  green:{main:"#14a66c",soft:"#eafbf4",dark:"#0d7e52"},
+  amber:{main:"#d28610",soft:"#fff6e6",dark:"#995d06"},
+  purple:{main:"#7951cc",soft:"#f2edff",dark:"#5233a0"},
+  cyan:{main:"#008fa3",soft:"#e7f9fc",dark:"#046776"},
+  slate:{main:"#5d718d",soft:"#eef2f8",dark:"#364d67"}
+};
+const DEFAULT_SUBJECTS = [
+  {id:"mat",name:"Matemáticas",icon:"➗",color:"blue"},
+  {id:"cas",name:"Castellano",icon:"📚",color:"red"},
+  {id:"val",name:"Valenciano",icon:"🗣️",color:"green"},
+  {id:"med",name:"Conocimiento del Medio",icon:"🌍",color:"amber"}
+];
+const $ = id => document.getElementById(id);
+const esc = (s="") => String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]));
+const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+function blank(){ return {activities:[],grades:{},pm:{}}; }
+function newBook(){ return {t1:blank(),t2:blank(),t3:blank()}; }
+function initial(){
+  const subjects=DEFAULT_SUBJECTS.map(s=>({...s}));
+  const books={}; subjects.forEach(s=>books[s.id]=newBook());
+  return {version:1,meta:{className:"",schoolYear:"",teacherName:"",schoolName:""},students:[],subjects,books};
+}
+function normalize(obj){
+  if(!obj || typeof obj!=="object" || !Array.isArray(obj.students) || !Array.isArray(obj.subjects) || !obj.books || typeof obj.books!=="object") throw Error("La copia no tiene el formato correcto.");
+  const x={version:1,meta:{},students:[],subjects:[],books:{}};
+  for(const k of ["className","schoolYear","teacherName","schoolName"]){x.meta[k]=String(obj.meta?.[k]||"").slice(0,180);}
+  const ids=new Set();
+  for(const item of obj.subjects){
+    if(!item || typeof item!=="object")continue;
+    const id=String(item.id||"").slice(0,80), name=String(item.name||"").trim().slice(0,90);
+    if(!id || !name || ids.has(id) || id==="__proto__" || id==="constructor" || id==="prototype")continue;
+    ids.add(id);
+    x.subjects.push({id,name,icon:String(item.icon||"📘").slice(0,8),color:PALETTES[item.color]?item.color:"blue"});
+    const src=obj.books[id]||{},book=newBook();
+    for(const term of ["t1","t2","t3"]){
+      const part=src[term]||{};
+      book[term]={activities:Array.isArray(part.activities)?part.activities.filter(a=>a && typeof a.id==="string").map(a=>({id:a.id.slice(0,80),name:String(a.name||"Actividad").slice(0,160),weight:Math.max(0,Math.min(100,Number(a.weight)||0))})):[],grades:part.grades&&typeof part.grades==="object"?part.grades:{},pm:part.pm&&typeof part.pm==="object"?part.pm:{}};
+    }
+    Object.defineProperty(x.books,id,{value:book,writable:true,enumerable:true,configurable:true});
+  }
+  const stuIds=new Set();
+  for(const s of obj.students){
+    if(!s || typeof s.name!=="string" || !s.name.trim())continue;
+    let id=typeof s.id==="string" && s.id ? s.id : uid("s");
+    if(stuIds.has(id))id=uid("s");
+    stuIds.add(id);x.students.push({id,name:s.name.slice(0,160)});
+  }
+  return x;
+}
+function load(){try{const raw=localStorage.getItem(KEY);if(raw)return normalize(JSON.parse(raw));}catch(e){console.warn("No se pudo recuperar el guardado",e)}return initial();}
+let d=load(), sub=d.subjects[0]?.id||null,term="t1",modalSubjectMode="add";
+function save(){try{localStorage.setItem(KEY,JSON.stringify(d));}catch(e){console.warn("No se pudo guardar",e);toast("El navegador no ha permitido guardar. Exporta una copia.");}}
+let toastTimer;
+function toast(msg){const e=$("toast");e.textContent=msg;e.classList.remove("hidden");clearTimeout(toastTimer);toastTimer=setTimeout(()=>e.classList.add("hidden"),3200);}
+function subj(){return d.subjects.find(s=>s.id===sub)||null;}
+function td(t=term){return d.books[sub]?.[t]||blank();}
+function totalW(){return term==="final"?0:td().activities.reduce((n,a)=>n+(+a.weight||0),0);}
+function avg(sid,t=term){
+  if(t==="final"){
+    const vals=["t1","t2","t3"].map(tt=>avg(sid,tt)).filter(v=>v!==null);
+    return vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null;
+  }
+  const x=td(t), usable=x.activities.filter(a=>{
+    const v=x.grades?.[sid]?.[a.id];return v!==""&&v!==undefined&&v!==null&&Number.isFinite(+v)&&(+a.weight)>0;
+  });
+  const weight=usable.reduce((a,v)=>a+(+v.weight||0),0);
+  return weight?usable.reduce((a,v)=>a+(+x.grades[sid][v.id])*(+v.weight),0)/weight:null;
+}
+function pm(sid,t=term){
+  if(t==="final")return ["t1","t2","t3"].reduce((a,v)=>a+(+td(v).pm?.[sid]||0),0);
+  return +td(t).pm?.[sid]||0;
+}
+const fmt=v=>v===null?"—":v.toFixed(2).replace(".",",");
+const pmc=v=>v>0?"pos":v<0?"neg":"";
+function theme(){const p=PALETTES[subj()?.color||"blue"];for(const k of ["main","soft","dark"])document.documentElement.style.setProperty("--"+k,p[k]);}
+function updateSubtitle(){
+  const bits=[d.meta.className,d.meta.schoolYear].filter(Boolean);
+  $("heroSubtitle").textContent=(bits.length?bits.join(" · ")+" · ":"")+"3 trimestres · evaluación final · positivos/negativos";
+  document.title="Cuaderno del profesor"+(d.meta.className?" · "+d.meta.className:"");
+}
+function drawSubjects(){
+  const e=$("subjects");e.innerHTML="";
+  for(const x of d.subjects){
+    const b=document.createElement("button");b.type="button";b.className="subject-btn"+(sub===x.id?" active":"");
+    const ico=document.createElement("span");ico.className="ico";ico.textContent=x.icon;
+    b.append(ico,document.createTextNode(x.name));b.onclick=()=>{sub=x.id;render();};e.append(b);
+  }
+  if(!d.subjects.length)e.innerHTML='<span class="pill">No hay materias: pulsa «＋ Materia».</span>';
+  $("subEdit").disabled=!subj();
+}
+function drawTerms(){
+  const el=$("terms");el.innerHTML="";
+  for(const [id,title] of T){const b=document.createElement("button");b.type="button";b.className="term-btn"+(term===id?" active":"");b.textContent=title;b.onclick=()=>{term=id;render();};el.append(b);}
+}
+function status(){
+  const title=T.find(t=>t[0]===term)?.[1]||"";
+  $("context").textContent=(d.meta.className||"Curso sin indicar")+" · "+(subj()?.name||"Sin asignatura")+" · "+title;
+  $("count").textContent=d.students.length+" alumnos";
+  if(term==="final"){$("weight").textContent="Media de 3 trimestres";$("weight").className="pill good";}
+  else {const w=totalW();$("weight").textContent=w+" / 100 %";$("weight").className="pill "+(w===100?"good":"warn");}
+  $("actions").style.display=term==="final"?"none":"flex";
+  $("addAct").disabled=!subj();
+}
+function renderTable(){
+  if(!subj()){$("table").innerHTML='<div class="empty">Añade una asignatura para empezar a utilizar el cuaderno.</div>';return;}
+  if(!d.students.length){
+    $("table").innerHTML='<div class="empty"><strong>Aún no hay alumnos.</strong><div style="margin-top:8px">Pulsa «＋ Alumnos» y escribe sus nombres o pega una lista.</div></div>';
+    return;
+  }
+  const x=td(); let h='<table><thead><tr><th>#</th><th>Alumno/a</th>';
+  for(const a of x.activities){
+    h+=`<th><input class="activity" aria-label="Nombre de actividad" data-an="${esc(a.id)}" value="${esc(a.name)}"><br><input class="weight" aria-label="Porcentaje" data-aw="${esc(a.id)}" type="number" min="0" max="100" value="${+a.weight||0}"> % <button type="button" class="trash" data-ad="${esc(a.id)}" title="Eliminar actividad">✕</button></th>`;
+  }
+  h+='<th class="final">Nota</th><th>Eliminar</th><th class="fixedpm pmhead">Positivos / Negativos</th></tr></thead><tbody>';
+  for(const [i,s] of d.students.entries()){
+    h+=`<tr><td>${i+1}</td><td><input class="name" aria-label="Nombre del alumno" data-sn="${esc(s.id)}" value="${esc(s.name)}"></td>`;
+    for(const a of x.activities){
+      const v=x.grades?.[s.id]?.[a.id]??"";
+      h+=`<td><input class="grade" aria-label="Nota" data-g="${esc(s.id)}|${esc(a.id)}" type="number" min="0" max="10" step=".01" value="${esc(v)}"></td>`;
+    }
+    const p=pm(s.id);
+    h+=`<td class="final" data-final="${esc(s.id)}">${fmt(avg(s.id))}</td><td><button type="button" class="trash" data-sd="${esc(s.id)}" title="Eliminar alumno">🗑️</button></td><td class="fixedpm"><div class="pmbox"><button type="button" class="pm minus" data-pm="${esc(s.id)}|-1" aria-label="Añadir negativo">−</button><span class="score ${pmc(p)}" data-score="${esc(s.id)}">${p>0?"+":""}${p}</span><button type="button" class="pm plus" data-pm="${esc(s.id)}|1" aria-label="Añadir positivo">+</button></div></td></tr>`;
+  }
+  h+='</tbody></table>';$("table").innerHTML=h;
+  $("table").querySelectorAll("[data-g]").forEach(el=>el.addEventListener("input",()=>{
+    const [sid,aid]=el.dataset.g.split("|");if(!x.grades[sid])x.grades[sid]={};
+    let v=el.value;if(v!==""){const n=Number(v);if(Number.isFinite(n))v=Math.max(0,Math.min(10,n));}
+    x.grades[sid][aid]=v;save();
+    const dest=Array.from($("table").querySelectorAll("[data-final]")).find(a=>a.dataset.final===sid);
+    if(dest)dest.textContent=fmt(avg(sid));
+  }));
+  $("table").querySelectorAll("[data-aw]").forEach(el=>el.addEventListener("change",()=>{
+    const a=x.activities.find(v=>v.id===el.dataset.aw);if(!a)return;
+    a.weight=Math.max(0,Math.min(100,+el.value||0));save();render();
+  }));
+  $("table").querySelectorAll("[data-an]").forEach(el=>el.addEventListener("change",()=>{
+    const a=x.activities.find(v=>v.id===el.dataset.an);if(a){a.name=el.value.trim()||"Actividad";save();}
+  }));
+  $("table").querySelectorAll("[data-sn]").forEach(el=>el.addEventListener("change",()=>{
+    const s=d.students.find(v=>v.id===el.dataset.sn);if(s){s.name=el.value.trim()||"Alumno";save();}
+  }));
+  $("table").querySelectorAll("[data-ad]").forEach(el=>el.addEventListener("click",()=>delAct(el.dataset.ad)));
+  $("table").querySelectorAll("[data-sd]").forEach(el=>el.addEventListener("click",()=>delStu(el.dataset.sd)));
+  $("table").querySelectorAll("[data-pm]").forEach(el=>el.addEventListener("click",()=>{
+    const [sid,delta]=el.dataset.pm.split("|");x.pm[sid]=(+x.pm[sid]||0)+Number(delta);save();sound(Number(delta));
+    const dest=Array.from($("table").querySelectorAll("[data-score]")).find(a=>a.dataset.score===sid);
+    if(dest){const n=x.pm[sid];dest.textContent=(n>0?"+":"")+n;dest.className="score "+pmc(n);}
+  }));
+}
+function drawFinal(){
+  if(!subj()){$("finalTable").innerHTML='<div class="empty">Añade una asignatura para ver la evaluación.</div>';return;}
+  if(!d.students.length){$("finalTable").innerHTML='<div class="empty">Aún no hay alumnos.</div>';return;}
+  let h='<table><thead><tr><th>#</th><th>Alumno/a</th><th>1.er trim.</th><th>2.º trim.</th><th>3.er trim.</th><th class="final">Media final</th><th class="fixedpm pmhead">+/− Total</th></tr></thead><tbody>';
+  for(const [i,s] of d.students.entries()){
+    const p=pm(s.id,"final");h+=`<tr><td>${i+1}</td><td>${esc(s.name)}</td><td>${fmt(avg(s.id,"t1"))}</td><td>${fmt(avg(s.id,"t2"))}</td><td>${fmt(avg(s.id,"t3"))}</td><td class="final">${fmt(avg(s.id,"final"))}</td><td class="fixedpm"><span class="score ${pmc(p)}">${p>0?"+":""}${p}</span></td></tr>`;
+  }
+  $("finalTable").innerHTML=h+"</tbody></table>";
+}
+function render(){
+  if(!subj())sub=d.subjects[0]?.id||null;
+  theme();updateSubtitle();drawSubjects();drawTerms();status();
+  const fin=term==="final";$("termView").classList.toggle("hide",fin);$("finalView").classList.toggle("show",fin);
+  fin?drawFinal():renderTable();
+}
+function openM(id){$(id).classList.add("show");const el=$(id).querySelector("input,textarea");if(el)el.focus();}
+function closeM(id){$(id).classList.remove("show");}
+function delStu(id){
+  const s=d.students.find(x=>x.id===id);if(!s||!confirm("¿Eliminar a "+s.name+" de todas las asignaturas y evaluaciones?"))return;
+  d.students=d.students.filter(x=>x.id!==id);
+  for(const sb of d.subjects)for(const t of ["t1","t2","t3"]){delete d.books[sb.id][t].grades[id];delete d.books[sb.id][t].pm[id];}
+  save();render();
+}
+function delAct(id){
+  const x=td(),a=x.activities.find(x=>x.id===id);if(!a||!confirm("¿Eliminar la actividad «"+a.name+"» y todas sus notas?"))return;
+  x.activities=x.activities.filter(v=>v.id!==id);for(const grades of Object.values(x.grades))delete grades[id];save();render();
+}
+function showSubject(mode){
+  modalSubjectMode=mode;const s=subj();
+  $("subTitle").textContent=mode==="edit"?"Editar asignatura":"Nueva asignatura";
+  $("subName").value=mode==="edit"?s.name:"";
+  $("subIcon").value=mode==="edit"?s.icon:"📘";
+  $("subColor").value=mode==="edit"?s.color:Object.keys(PALETTES)[d.subjects.length%Object.keys(PALETTES).length];
+  $("removeSub").classList.toggle("hidden",mode!=="edit");openM("subModal");
+}
+function saveSubject(){
+  const name=$("subName").value.trim(),icon=$("subIcon").value.trim()||"📘",color=$("subColor").value;
+  if(!name){$("subName").focus();return;}
+  if(modalSubjectMode==="edit"){
+    const s=subj();if(!s)return;s.name=name;s.icon=icon;s.color=color;
+  }else{
+    const id=uid("subject_");d.subjects.push({id,name,icon,color});d.books[id]=newBook();sub=id;
+  }
+  save();closeM("subModal");render();
+}
+function deleteSubject(){
+  const s=subj();if(!s)return;
+  if(!confirm("¿Eliminar «"+s.name+"» y todas sus actividades, notas y positivos/negativos? Esta acción no se puede deshacer."))return;
+  d.subjects=d.subjects.filter(v=>v.id!==s.id);delete d.books[s.id];sub=d.subjects[0]?.id||null;
+  save();closeM("subModal");render();
+}
+let ac;
+function sound(delta){
+  try{
+    ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state==="suspended")ac.resume();
+    const n=ac.currentTime;
+    function tone(f,start,dur,type="sine"){
+      const o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.value=f;
+      g.gain.setValueAtTime(.0001,start);g.gain.exponentialRampToValueAtTime(.10,start+.01);g.gain.exponentialRampToValueAtTime(.0001,start+dur);
+      o.connect(g);g.connect(ac.destination);o.start(start);o.stop(start+dur+.02);
+    }
+    if(delta>0){tone(523,n,.12);tone(659,n+.08,.13);tone(784,n+.16,.19,"triangle");}
+    else{tone(220,n,.14,"sawtooth");tone(165,n+.1,.20,"sawtooth");}
+  }catch(e){}
+}
+function downloadBlob(name,data,type){
+  const url=URL.createObjectURL(new Blob([data],{type}));const a=document.createElement("a");a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);
+}
+function safeName(s){return (s||"generico").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-zA-Z0-9_-]+/g,"_").slice(0,65);}
+function fillMeta(){for(const k of ["className","schoolYear","teacherName","schoolName"])$(k).value=d.meta[k]||"";}
+for(const k of ["className","schoolYear","teacherName","schoolName"]){
+  $(k).addEventListener("input",e=>{d.meta[k]=e.target.value;save();updateSubtitle();status();});
+}
+for(const b of document.querySelectorAll("[data-close]"))b.addEventListener("click",()=>closeM(b.dataset.close));
+for(const box of document.querySelectorAll(".modalbg"))box.addEventListener("click",e=>{if(e.target===box)closeM(box.id);});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")for(const box of document.querySelectorAll(".modalbg.show"))closeM(box.id);});
+$("addStu").onclick=()=>{$("stuNames").value="";openM("stuModal");};
+$("saveStu").onclick=()=>{
+  const names=$("stuNames").value.split(/\r?\n/).map(v=>v.trim()).filter(Boolean);
+  if(!names.length){$("stuNames").focus();return;}
+  for(const name of names)d.students.push({id:uid("student_"),name});
+  save();closeM("stuModal");render();toast(names.length+" alumno(s) añadido(s).");
+};
+$("addAct").onclick=()=>{
+  if(!subj())return;$("actName").value="";$("actWeight").value=Math.max(0,100-totalW())||"";openM("actModal");
+};
+$("saveAct").onclick=()=>{
+  const name=$("actName").value.trim();if(!name){$("actName").focus();return;}
+  td().activities.push({id:uid("activity_"),name,weight:Math.max(0,Math.min(100,+$("actWeight").value||0))});
+  save();closeM("actModal");render();
+};
+$("subAdd").onclick=()=>showSubject("add");
+$("subEdit").onclick=()=>{if(subj())showSubject("edit");};
+$("saveSub").onclick=saveSubject;
+$("removeSub").onclick=deleteSubject;
+$("exportData").onclick=()=>{
+  downloadBlob("Cuaderno_"+safeName(d.meta.className)+"_copia.json",JSON.stringify(d,null,2),"application/json;charset=utf-8");toast("Copia de seguridad descargada.");
+};
+$("importData").onclick=()=>{$("importFile").value="";$("importFile").click();};
+$("importFile").onchange=async e=>{
+  const f=e.target.files?.[0];if(!f)return;
+  try{
+    const incoming=normalize(JSON.parse(await f.text()));
+    if(!confirm("¿Reemplazar el cuaderno actual por los datos de esta copia? Exporta antes una copia de los datos actuales si quieres conservarlos."))return;
+    d=incoming;sub=d.subjects[0]?.id||null;term="t1";save();fillMeta();render();toast("Copia de seguridad recuperada.");
+  }catch(err){alert("No se ha podido leer esta copia: "+err.message);}
+};
+fillMeta();render();
+</script>
+</body>
+</html>
